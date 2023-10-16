@@ -442,7 +442,7 @@ The data volume is still present, and will be there until you remove it with a `
 - `-v /path:/path/in/container` mounts the host directory, /path at the /path/in/container
 - `-v path:/path/in/container` creates a volume named path with no relationship to the host.
 
-**Sharing data** If you want to share volumes or bind mounts between two containers, then use the â€“volumes-from option for the second container. The parameter maps the mapped volumes from the source container to the container being launched.
+**Sharing data** If you want to share volumes or bind mounts between two containers, then use the `volumes-from` option for the second container. The parameter maps the mapped volumes from the source container to the container being launched.
 
 # Task 16: More advanced docker commands
 Before you go on, use the Docker command line interface documentation to try a few more commands:
