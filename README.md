@@ -398,7 +398,7 @@ docker volume inspect data
     }
 ]
 ```
-You can see that the data volume is mounted at /var/lib/docker/volumes/data/_data on the host.
+You can see that the data volume is mounted at `/var/lib/docker/volumes/data/_data` on the host.
 
 Note we will not go through the different drivers. For more info look at Dockers own example.
 
@@ -423,8 +423,7 @@ Multiple containers can attach to the same volume with data. Docker doesn't hand
 Let's try to go in and make a new html page for nginx to serve. We do this by making a new ubuntu container that has the data volume attached to /tmp, and thereafter create a new html file with the echo command:
 ```
 docker container run -ti --rm -v data:/tmp ubuntu bash
-root@9c36fcfcc048:# echo "<html><h1>hello world</h1></html>" >
-/tmp/hello.html
+root@9c36fcfcc048:# echo "<html><h1>hello world</h1></html>" > /tmp/hello.html
 root@9c36fcfcc048:# ls /tmp
 hello.html 50x.html index.html
 ```
