@@ -362,7 +362,7 @@ TIPS: Make it host the site on port 8000 Check that it is running by navigating 
 ## Task 13.2: Volumes
 
 Volumes are entities inside docker, and can be created in three different ways.
-- By explicitly creating it with the docker volume create <volume_name> command
+- By explicitly creating it with the docker volume create \<volume_name> command
 - By creating a named volume at container creation time with docker container run -d -v DataVolume:/opt/app/data nginx
 - By creating an anonymous volume at container creation time with docker container run -d -v /opt/app/data nginx
 First off, let's try to make a data volume called data:
@@ -427,7 +427,7 @@ root@9c36fcfcc048:# echo "<html><h1>hello world</h1></html>" > /tmp/hello.html
 root@9c36fcfcc048:# ls /tmp
 hello.html 50x.html index.html
 ```
-Head over to your newly created webpage using curl:<localhostIP>:8080/hello.html
+Head over to your newly created webpage using curl localhost:8080/hello.html
 
 # Task 15: Cleanup
 Exit out of your ubuntu server _(the container you have last created)_ and execute a `docker container stop www` to stop the nginx container.
