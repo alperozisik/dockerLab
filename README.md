@@ -33,7 +33,7 @@ Depending on what <u>OS</u> you are running, installation is different, but head
 
 Try running a command with Docker:
 ```shell
-$ docker container run hello-world 
+docker container run hello-world 
 ```
 Your terminal output should look like this:
 ```
@@ -69,7 +69,7 @@ Now that you have everything setup, it's time to get your hands dirty. In this s
 
 To get started, let's run the following in our terminal:
 ```shell
- $ docker image pull alpine
+docker image pull alpine
 ```
 Note: Depending on how you've installed docker on your system, you might see a *permission denied error* after running the above command. You may need to prefix your docker commands with sudo as stated before. Alternatively you can create a docker group to get rid of this issue.
 
@@ -77,7 +77,9 @@ This is most likely caused by missing the post installation steps from the Task 
 
 The `pull` command fetches the alpine image from the Docker registry and saves it in your system. You can use the `docker image ls` command to see a list of all images on your system.
 ```shell
-$ docker image ls
+docker image ls
+```
+```
 REPOSITORY TAG IMAGE ID CREATED VIRTUAL SIZE
 alpine latest c51f86c28340 4 weeks ago 1.109 MB
 hello-world latest 690ed74de00f 5 months ago 960 B
@@ -85,7 +87,9 @@ hello-world latest 690ed74de00f 5 months ago 960 B
 # Task 3: Docker container run
 Great! Now let's run a Docker container based on this image. To do that you are going to use the docker container run command.
 ```shell
-$ docker container run alpine ls -l
+docker container run alpine ls -l
+```
+```
 total 48
 drwxr-xr-x 2 root root 4096 Mar 2 16:20 bin
 drwxr-xr-x 5 root root 360 Mar 18 09:47 dev
@@ -100,24 +104,26 @@ What happened? Behind the scenes, a lot of stuff happened. When you call run,
 
 When you run `docker container run alpine`, you provided a command (`ls -l`), so Docker started the command specified and you saw the listing. Let's try something more exciting:
 ```shell
-$ docker container run alpine echo "hello from alpine"
+docker container run alpine echo "hello from alpine"
+```
+```
 hello from alpine
 ```
 OK, that's some actual output. In this case, the Docker client dutifully ran the echo command in our alpine container and then exited it. If you've noticed, all of that happened pretty quickly. Imagine booting up a virtual machine, running a command and then killing it. Now you know why they say containers are fast!
 
 Try another command:
 ```shell
-$ docker container run alpine /bin/sh
+docker container run alpine /bin/sh
 ```
 Wait, nothing happened! Is that a bug? Well, no. These interactive shells will exit after running any scripted commands, unless they are run in an interactive terminal - so for this example to not exit, you need to:
 ```shell
-$ docker container run -it alpine /bin/sh
+docker container run -it alpine /bin/sh
 ```
 You are now inside the container shell and you can try out a few commands like `ls -l`, `uname -a` and others. Exit out of the container by giving the `exit` command.
 
 Ok, now it's time to see the docker container ls command. The docker container ls command shows you all containers that are currently running.
 ```shell
-$ docker container ls
+docker container ls
 ```
 Is this a bug? Also, no; when you wrote exit in the shell, the process stopped. No containers are running, you see a blank line. Let's try a more useful variant: `docker container ls -a`
 
@@ -131,7 +137,7 @@ Note: the flags `-it` are short for `-i -t` which again are the short forms of *
 Take a look again at the output of the docker container ls -a:
 All containers have an **ID** and a **name**. Both the ID and name is generated every time a new container spins up with a random seed for uniqueness. If you want to assign a specific name to a container then you can use the name option. That can make it easier for you to reference the container going forward.
 ```shell
-$ docker container run --name alpine01 -it alpine /bin/sh 
+docker container run --name alpine01 -it alpine /bin/sh 
 ```
 To find out more about run, use docker container run help to see a list of all flags it supports.
 
@@ -142,7 +148,9 @@ Let's try to run an alpine container and delete the file system.
 
 Spin up the container with `docker container run -ti` alpine and list all the folders on the root level to see the whole distribution:
 ```shell
-# ls /
+ls /
+```
+```
 bin etc lib mnt root sbin sys usr
 dev home media proc run srv tmp var
 ```
@@ -150,21 +158,32 @@ dev home media proc run srv tmp var
 Now, delete the whole file system with `rm -rf /`
 Try to navigate around to see how much of the OS is gone
 ```shell
-# ls
+ls
+```
+```
 /bin/sh: ls: not found
 ```
+
 ```shell
-# whoami
+whoami
+```
+```
 sh: whoami: not found
 ```
 ```shell
-# date
+date
+```
+```
 /bin/sh: date: not found
 ```
 Exit out by _Ctrl+D_ and create a new instance of the Alpine image and look a bit around:
 ```shell
-$ docker container run -ti alpine
-# ls /
+docker container run -ti alpine
+```
+```shell
+ls /
+```
+```
 bin etc lib mnt root sbin sys usr
 dev home media proc run srv tmp var
 ```
@@ -183,11 +202,15 @@ If you are creating a lot of new containers eg. to test something, you can tell 
 # Task 7: Cleaning up containers you do not use anymore
 Containers are still persisted, even though they are stopped. If you want to delete them from your server you need to use the `docker container rm` command. `docker container rm` can take either the CONTAINER ID or NAME as seen above. Try to remove the hello-world container:
 ```shell
-$ docker container ls -a
+docker container ls -a
+```
+```
 CONTAINER ID   IMAGE         COMMAND     CREATED          STATUS                       PORTS     NAMES
 33b8bef3e7f2   hello-world   "/hello"    17 seconds ago   Exited (0) 15 seconds ago              agitated_edison
 e61c2ef2dd19   alpine        "/bin/sh"   4 minutes ago    Exited (130) 3 minutes ago             wizardly_bartik
-$ docker container rm agitated_edison agitated_edison
+```
+```shell
+docker container rm agitated_edison agitated_edison
 ```
 The container is now gone when you execute a `ls -a` command.
 
@@ -198,14 +221,18 @@ You deleted the container instance above, but not the image of hello-world itsel
 
 First off, list all the images you have downloaded to your computer:
 ```shell
-$ docker image ls
+docker image ls
+```
+```
 REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
 alpine        latest    0ac33e5f5afa   6 weeks ago    5.57MB
 hello-world   latest    feb5d9fea6a5   8 months ago   13.3kB
 ```
 Here you can see the images downloaded as well as their size. To remove the hello-world image use the `docker image rm` command together with the id of the docker image:
 ```shell
-$ docker image rm feb5
+docker image rm feb5
+```
+```
 Untagged: hello-world:latest
 Untagged: hello-world@sha256:80f31da1ac7b312ba29d65080fddf797dd76acfb870e677f390d5acba9741b17
 Deleted: sha256:feb5d9fea6a5e9606aa995e879d862b825965ba48de054caab5ef356dc6b3412
@@ -222,7 +249,7 @@ Start a new container from the nginx image that exposes port 80 from the contain
 
 > 💡 Mapping ports between your host machine and your containers can get confusing. Here is the syntax you will use:
 ```shell
-$ docker container run -p 8080:80 nginx 
+docker container run -p 8080:80 nginx 
 ```
 The trick is to remember that the host port always goes to the left, and the container port always goes to the right. Remember it as traffic coming from the host, to the container.
 
@@ -241,7 +268,9 @@ When running a webserver like nginx, it's pretty useful that you do not have to 
 
 We need to make it run in the background, freeing up our terminal for other things. Docker enables this with the -d parameter for run.
 ```shell
-$ docker container run -p 8080:80 -d nginx
+docker container run -p 8080:80 -d nginx
+```
+```
 78c943461b49584ebdf841f36d113567540ae460387bbd7b2f885343e7ad7554
 ```
 Docker prints out the container ID and returns to the terminal.
@@ -255,25 +284,29 @@ NOTE: When you attach to an already started container, you cannot exit normally 
 
 First, start up an Nginx container:
 ```shell
-$ docker container run -d -p 8000:80 nginx
+docker container run -d -p 8000:80 nginx
+```
+```
 661c6dd59d78b97f8142d67eff6b1d58fbbd42247900241e08f46abdbad19f06
 ```
 Try to attach to the container. Exit it, and browse the webpage again to acknowledge it is gone.
 
 Step into a new container by executing a bash inside the container:
 ```shell
-$ docker container run -d -p 8000:80 nginx
-$ docker container exec -it CONTAINER bash
+docker container run -d -p 8000:80 nginx
+docker container exec -it CONTAINER bash
 ```
 Inside, we want to run a longer running process, like pinging itself 100 times. Because containers only have the bare minimum installed, we need to first install ping, and then use it:
 ```shell
-$ apt-get update && apt-get install iputils-ping -y
-$ ping 127.0.0.1 -c 100 > /tmp/ping
+apt-get update && apt-get install iputils-ping -y
+ping 127.0.0.1 -c 100 > /tmp/ping
 ```
 Then detach from the container with Ctrl+p Ctrl+q and run the following:
 ```shell
-$ docker container exec -it CONTAINER bash
-$ tail -f /tmp/ping
+docker container exec -it CONTAINER bash
+tail -f /tmp/ping
+```
+```
 64 bytes from 127.0.0.1: icmp_seq=2 ttl=64 time=0.156 ms
 64 bytes from 127.0.0.1: icmp_seq=3 ttl=64 time=0.183 ms
 64 bytes from 127.0.0.1: icmp_seq=4 ttl=64 time=0.158 ms
@@ -295,7 +328,7 @@ You have two different ways of mounting data from your container **bind mounts**
 So, let's look at the Nginx container. The server itself is of little use, if it cannot access our web content on the host.
 We need to create a mapping between the host system, and the container with the `-v` command:
 ```shell
-$ docker container run --name some-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
+docker container run --name some-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
 ```
 That will map whatever files are in the `/some/content` folder on the host to `/usr/share/nginx/html` in the container.
 
@@ -317,13 +350,15 @@ Volumes are entities inside docker, and can be created in three different ways.
 - By creating an anonymous volume at container creation time with docker container run -d -v /opt/app/data nginx
 First off, let's try to make a data volume called data:
 ```shell
-$ docker volume create data 
+docker volume create data 
 ```
 Docker creates the volume and outputs the name of the volume created.
 
 If you run `docker volume ls` you will have a list of all the volumes created and their driver:
 ```shell
-$ docker volume ls
+docker volume ls
+```
+```
 DRIVER VOLUME NAME
 local data
 ```
@@ -331,7 +366,9 @@ Unlike the bind mount, you do not specify where the data is stored on the host.
 
 In the volume API, like for almost all other of Docker's APIs, there is an inspect command giving you low level details. Let's use it against the html volume.
 ```shell
-$ docker volume inspect data
+docker volume inspect data
+```
+```json
 [
     {
         "CreatedAt": "2022-05-23T04:58:10-04:00",
@@ -356,7 +393,9 @@ docker container run --rm --name www -d -p 8080:80 -v data:/usr/share/nginx/html
 
 Try now to look at the data stored in /var/lib/docker/volumes/data/_data on the host:
 ```shell
-$ sudo ls /var/lib/docker/volumes/data/_data/
+sudo ls /var/lib/docker/volumes/data/_data/
+```
+```
 50x.html index.html
  ```
 Those two files come from the Nginx image and is the standard files the webserver has.
@@ -365,8 +404,8 @@ Those two files come from the Nginx image and is the standard files the webserve
 Multiple containers can attach to the same volume with data. Docker doesn't handle any file locking, so applications must account for the file locking themselves.
 
 Let's try to go in and make a new html page for nginx to serve. We do this by making a new ubuntu container that has the data volume attached to /tmp, and thereafter create a new html file with the echo command:
-```shell
-$ docker container run -ti --rm -v data:/tmp ubuntu bash
+```
+docker container run -ti --rm -v data:/tmp ubuntu bash
 root@9c36fcfcc048:# echo "<html><h1>hello world</h1></html>" >
 /tmp/hello.html
 root@9c36fcfcc048:# ls /tmp
@@ -429,9 +468,9 @@ CMD ["python", "./app.py"]
 CMD ["/bin/bash", "echo", "Hello World"]
 ```
 
-**EXPOSE** creates a hint for users of an image that provides services on ports. It is included in the information which can be retrieved via `$ docker container inspect <container-id>`.
+**EXPOSE** creates a hint for users of an image that provides services on ports. It is included in the information which can be retrieved via `docker container inspect <container-id>`.
 
-Note: The EXPOSE command does not actually make any ports accessible to the host! Instead, this requires publishing ports by means of the `-p` or `-P` flag when using `$ docker container run`.
+Note: The EXPOSE command does not actually make any ports accessible to the host! Instead, this requires publishing ports by means of the `-p` or `-P` flag when using `docker container run`.
 
 **ENTRYPOINT** configures a command that will run no matter what the user specifies at runtime.
 
@@ -514,7 +553,9 @@ app.run(host='0.0.0.0')
 Now that you have your _Dockerfile_, you can build your image. The docker build command does the heavy-lifting of creating a docker image from a _Dockerfile_.
 The `docker build` command is quite simple - it takes an optional tag name with the `-t` flag, and the location of the directory containing the _Dockerfile_ - the `.` indicates the current directory:
 ```shell
-$ docker build -t myfirstapp .
+docker build -t myfirstapp .
+```
+```
 Sending build context to Docker daemon 5.12kB
 Step 1/8 : FROM ubuntu:latest
 latest: Pulling from library/ubuntu
@@ -540,7 +581,9 @@ If you don't have the ubuntu:latest image, the client will first pull the image 
 
 The next step in this section is to run the image and see if it actually works:
 ```shell
-$ docker container run -p 8888:5000 --name myfirstapp myfirstapp
+docker container run -p 8888:5000 --name myfirstapp myfirstapp
+```
+```
 * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 Head over to localhost:8888 or your server's URL and your app should be live.
 ```
@@ -607,7 +650,7 @@ So, what docker actually does is
 
 in a loop untill all the commands have been made. Try to create a container from your `COPY app.py /usr/src/app/` command. The id of the layer will likely be different than the example above.
 ```shell
-$ docker container run -ti -p 5000:5000 6ed47d3c544a bash.
+docker container run -ti -p 5000:5000 6ed47d3c544a bash.
 ```
 You are now in a container run from that layer in the build script. You can't make the EXPOSE command, but you can look around, and run the last python app:
 ```
@@ -633,7 +676,7 @@ We're almost ready to push our Flask image up to the Docker Hub. We just need to
 
 Using the docker tag command, tag the image you created in the previous section to your namespace. For example, I would run:
 ```shell
-$ docker tag myfirstapp johndoeofdocker/myfirstapp:latest
+docker tag myfirstapp johndoeofdocker/myfirstapp:latest
 ```
 myfirstapp is the tag I used in my docker build commands in the previous section, and johndoeofdocker/myfirstapp: is the full name of the new Docker image I want to push to the Hub.
 
@@ -641,7 +684,7 @@ johndoeofdocker is my username at dockerhub, and also my namespace for all my im
 
 All that's left to do is push up your image:
 ```shell
-$ docker push johndoeofdocker/myfirstapp
+docker push johndoeofdocker/myfirstapp
 ```
 The push refers to a repository [docker.io/ johndoeofdocker/myfirstapp]
 ```
@@ -741,24 +784,24 @@ The docker network command securely connect and provide a channel to transfer in
 
 First off make a new network for the containers to communicate through:
 ```shell
-$ docker network create if_wordpress 
+docker network create if_wordpress 
 ```
 Docker will return the networkID for the newly created network. You can reference it by name as well as the ID.
 
 Now you need to connect the two containers to the network, by adding the network option:
 ```shell
-$ docker container run --name mysql-container --rm --network if_wordpress -e MYSQL_ROOT_PASSWORD=wordpress -e MYSQL_DATABASE=wordpress_database -e MYSQL_USER=wordpress_user -e MYSQL_PASSWORD=password -d mysql:5.7
+docker container run --name mysql-container --rm --network if_wordpress -e MYSQL_ROOT_PASSWORD=wordpress -e MYSQL_DATABASE=wordpress_database -e MYSQL_USER=wordpress_user -e MYSQL_PASSWORD=password -d mysql:5.7
 af38acac52301a7c9689d708e6c3255704cdffb1972bcc245d67b02840983a50
 ```
 ```shell
-$ docker container run --name wordpress-container --rm --network if_wordpress -e WORDPRESS_DB_HOST=mysql-container -e WORDPRESS_DB_USER=wordpress_user -e WORDPRESS_DB_PASSWORD=password -e WORDPRESS_DB_NAME=wordpress_database -p 8001:80 -d wordpress
+docker container run --name wordpress-container --rm --network if_wordpress -e WORDPRESS_DB_HOST=mysql-container -e WORDPRESS_DB_USER=wordpress_user -e WORDPRESS_DB_PASSWORD=password -e WORDPRESS_DB_NAME=wordpress_database -p 8001:80 -d wordpress
 fd4fd096c064094d7758cefce41d0f1124e78b86623160466973007cf0af8556
 ```
 Notice the WORDPRESS_DB_HOST env variable. When you make a container join a network, it automatically gets the container name as DNS name as well, making it super easy to make containers discover each other. The DNS name is only visible inside the Docker network, which is also true for the IP address (usually an address starting with 172) that is assigned to them. If you do not expose a port for a container, the container is only visible to Docker.
 
 You have now deployed both containers into the network. Take a deeper look into the container network by issuing:
 ```shell
-$ docker network inspect if_wordpress
+docker network inspect if_wordpress
 ```
 ```json
 [
@@ -812,7 +855,7 @@ As, we have linked both the container now WordPress container can be accessed fr
 # Task 24: Cleanup
 Close both of the containers down by issuing the following command:
 ```shell
-$ docker container stop wordpress-container mysql-container
+docker container stop wordpress-container mysql-container
 ```
 
 # Task 25: Using Docker compose
@@ -889,7 +932,7 @@ Now look at the docker-compose example again:
 
 Instead of keeping sensitive information in the docker-compose.yml file, you can also use an .env file to keep all the environment variables. That way, it's easier to make a development environment and a production environment with the same docker-compose.yml. Try to spin up the container in detached mode:
 ```shell
-$ docker-compose up -d
+docker-compose up -d
 ```
 ```
 Creating network "student_default" with the default driver
@@ -960,7 +1003,7 @@ ENTRYPOINT ./goapp
 ```
 Try building the image with `docker build -t mysecondapp .` and run it. You should see `Hello world!` printed to the console:
 ```shell
-$ docker container run mysecondapp
+docker container run mysecondapp
 Hello world!
 ```
 
