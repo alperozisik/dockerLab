@@ -272,7 +272,7 @@ The trick is to remember that the host port always goes to the left, and the con
 
 If port **8080** is not port-forwarded on the Host replace it with one which is forwarded, in order to access it from your browser.
 
-If you see a webpage saying `Welcome to nginx!` then you're done!
+If you see a webpage saying `Welcome to nginx!` then you're done!
 
 If you look at the console output from docker, you see nginx producing a line of text for each time a browser hits the webpage:
 ```shell
@@ -349,7 +349,7 @@ docker container run --name some-nginx -v /some/content:/usr/share/nginx/html:ro
 ```
 That will map whatever files are in the `/some/content` folder on the host to `/usr/share/nginx/html` in the container.
 
-The `:ro` attribute is making the host volume read-only, making sure the container cannot edit the files on the host.
+The `:ro` attribute is making the host volume read-only, making sure the container cannot edit the files on the host.
 Try to do the following:
 
 Try to create a file in `/some/content`. You can use the command pwd (Print working directory) to display where you are.
@@ -1018,7 +1018,7 @@ RUN go mod init goapp
 RUN cd /app && go build -o goapp
 ENTRYPOINT ./goapp
 ```
-Try building the image with `docker build -t mysecondapp .` and run it. You should see `Hello world!` printed to the console:
+Try building the image with `docker build -t mysecondapp .` and run it. You should see `Hello world!` printed to the console:
 ```shell
 docker container run mysecondapp
 Hello world!
@@ -1043,7 +1043,7 @@ COPY --from=builder /src/goapp /app/
 ENTRYPOINT ./goapp
 ```
 
-Try building it with a different tag and running it. It should still print `Hello world!` to your console.
+Try building it with a different tag and running it. It should still print `Hello world!` to your console.
 Try inspecting the size with docker image ls.
 
 Compare the size of the two images. The latter image should be much smaller, since it's just containing the go-application using alpine as the base image, and not the entire golang-suite of tools.
