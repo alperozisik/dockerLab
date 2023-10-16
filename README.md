@@ -240,6 +240,23 @@ Deleted: sha256:e07ee1baac5fae6a26f30cabfe54a36d3402f96afda318fe0a96cec4ca393359
 ```
 What docker did here was to _untag_ the image removing the references to the _sha_ of the image. After the image has no references, it deletes the two layers the image itself is comprised of.
 
+# Task 9: Cleaning up
+When building, running and rebuilding images, you download and store a lot of layers. These layers will not be deleted, as docker takes a very conservative approach to clean up.
+
+Docker provides a prune command, taking all dangling containers/images/networks/volumes.
+
+```shell
+docker container prune
+docker image prune
+docker network prune
+docker volume prune
+```
+The docker image prune command allows you to clean up unused images. By default, docker image prune only cleans up dangling images. A dangling image is one that is not tagged and is not referenced by any container. To remove all unused resources, resources that are not directly used by any existing containers, use the -a switch as well.
+
+If you want a general clean-up, then `docker system prune` is your friend.
+
+You have seen the swiftness of creating a new container from an image, trash it, and create a new one on top of it. You have learned to use container rm for deleting containers, image rm for images, image ls for listing the images and container ls -a to look at all the containers on your host.
+
 # Task 10: Create a basic webserver
 Running arbitrary Linux commands inside a Docker container is fun, but let's do something more useful.
 
